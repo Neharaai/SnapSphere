@@ -1,0 +1,312 @@
+[
+  {
+    "title": "Mountain Lake Serenity",
+    "image": "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Alex Chen",
+    "date": "March 15, 2026",
+    "description": "A tranquil morning at Lake Moraine in the Canadian Rockies. The mist rises from the crystal-clear water as the first light touches the mountain peaks.",
+    "category": "Nature",
+    "location": "Moraine Lake, Canada",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Urban Geometry",
+    "image": "https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Sarah Williams",
+    "date": "Feb 23, 2026",
+    "description": "The striking architecture of The Shard in London creates fascinating geometric patterns against the blue sky. This perspective captures the building's unique glass facade.",
+    "category": "Photography",
+    "location": "London, UK",
+    "resolution": "4000 × 6000"
+  },
+  {
+    "title": "Autumn Symphony",
+    "image": "https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Rachel Green",
+    "date": "March 12, 2026",
+    "description": "Maple and birch trees explode in shades of orange, red, and gold, creating a tunnel of color through the White Mountains.",
+    "category": "Nature",
+    "location": "White Mountains, USA",
+    "resolution": "7360 × 4912"
+  },
+  {
+    "title": "Cherry Blossom Trees",
+    "image": "https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Yuki Tanaka",
+    "date": "March 4, 2026",
+    "description": "Cherry blossom trees bloom in soft pink colors during the beautiful spring season.",
+    "category": "Nature",
+    "location": "Kyoto, Japan",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Tropical Paradise Cove",
+    "image": "https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Mike Johnson",
+    "date": "March 5, 2026",
+    "description": "Hidden away in the Phi Phi Islands, this secluded cove offers the perfect escape. The water transitions from deep blue to turquoise as you approach the white sandy beach.",
+    "category": "Travel",
+    "location": "Phi Phi Islands, Thailand",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Statue of Liberty",
+    "image": "https://images.pexels.com/photos/290386/pexels-photo-290386.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Jessica Lee",
+    "date": "Feb 22, 2026",
+    "description": "It is a colossal copper monument on Liberty island in New York Harbor, symbolizing freedom and democracy.",
+    "category": "Photography",
+    "location": "New York, USA",
+    "resolution": "7952 × 5304"
+  },
+  {
+    "title": "Mountain Trail Adventure",
+    "image": "https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Adventure Alex",
+    "date": "March 2, 2026",
+    "description": "The Highline Trail offers stunning views of alpine meadows and rugged peaks with wildflowers carpeting the slopes.",
+    "category": "Travel",
+    "location": "Glacier National Park, USA",
+    "resolution": "7360 × 4912"
+  },
+  {
+    "title": "Ancient Greek Temple",
+    "image": "https://images.pexels.com/photos/951531/pexels-photo-951531.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Luca Ferrari",
+    "date": "Feb 28, 2026",
+    "description": "The remaining columns of an ancient Doric temple stand against a clear blue sky, offering a window into the grandeur of classical antiquity.",
+    "category": "Travel",
+    "location": "Athens, Greece",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Majestic Waterfall",
+    "image": "https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "David Miller",
+    "date": "March 13, 2026",
+    "description": "Skógafoss, one of Iceland's largest waterfalls, thunders down 60 meters with tremendous force. On sunny days, rainbows appear in the mist.",
+    "category": "Nature",
+    "location": "Skógar, Iceland",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Winter Wonderland",
+    "image": "https://images.pexels.com/photos/688660/pexels-photo-688660.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Winter Lover",
+    "date": "March 8, 2026",
+    "description": "Fresh powder blankets the trees after a major snowstorm, creating a peaceful winter wonderland in the Swiss Alps.",
+    "category": "Nature",
+    "location": "Zermatt, Switzerland",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Tropical Island",
+    "image": "https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Island Explorer",
+    "date": "Feb 25, 2026",
+    "description": "Not just an island, but a feeling. Exploring crystal-clear waters and sun-kissed shores.",
+    "category": "Travel",
+    "location": "Bora Bora, French Polynesia",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Manhattan Skyline",
+    "image": "https://images.pexels.com/photos/290595/pexels-photo-290595.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Amanda Lee",
+    "date": "Feb 18, 2026",
+    "description": "This world-famous skyline features a jagged silhouette of glass towers reflected in the water.",
+    "category": "Photography",
+    "location": "New York, USA",
+    "resolution": "5184 × 3456"
+  },
+  {
+    "title": "Enchanted Forest Trail",
+    "image": "https://images.pexels.com/photos/38136/pexels-photo-38136.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Emma Davis",
+    "date": "March 14, 2026",
+    "description": "Deep in the Hoh Rainforest, morning light filters through ancient maple trees draped in moss. The trail winds through a landscape that feels straight out of a fairy tale.",
+    "category": "Nature",
+    "location": "Olympic National Park, USA",
+    "resolution": "5184 × 3456"
+  },
+  {
+    "title": "Venice Canal Boats",
+    "image": "https://images.pexels.com/photos/208701/pexels-photo-208701.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Marco Rossi",
+    "date": "March 1, 2026",
+    "description": "Colorful gondolas float along Venice's historic canals surrounded by beautiful architecture.",
+    "category": "Travel",
+    "location": "Venice, Italy",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Aurora Borealis",
+    "image": "https://images.pexels.com/photos/1938348/pexels-photo-1938348.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Tom Wilson",
+    "date": "Feb 21, 2026",
+    "description": "The Northern Lights dance across the Arctic sky in a spectacular display of green and purple. This incredible light show illuminates the landscape below.",
+    "category": "Photography",
+    "location": "Tromsø, Norway",
+    "resolution": "7952 × 5304"
+  },
+  {
+    "title": "Snow Covered Mountain",
+    "image": "https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Emily Stone",
+    "date": "March 10, 2026",
+    "description": "A breathtaking snow-covered mountain peak rises above the clouds during a clear winter morning.",
+    "category": "Nature",
+    "location": "Alps, Switzerland",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Coffee Shop Vibes",
+    "image": "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Coffee Lover",
+    "date": "Feb 19, 2026",
+    "description": "A warm, intimate coffee shop where morning light streams through the windows as steam rises from freshly brewed coffee.",
+    "category": "Photography",
+    "location": "Seattle, USA",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Bali Rice Terraces",
+    "image": "https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Dewi Putra",
+    "date": "Feb 23, 2026",
+    "description": "Lush green rice terraces cascade down the hillside in Bali's countryside.",
+    "category": "Travel",
+    "location": "Bali, Indonesia",
+    "resolution": "5184 × 3456"
+  },
+  {
+    "title": "Dramatic Storm Clouds",
+    "image": "https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Samuel Garcia",
+    "date": "March 6, 2026",
+    "description": "Dramatic storm clouds gather over a vast prairie landscape. The contrast between light and dark creates a powerful atmospheric scene.",
+    "category": "Nature",
+    "location": "Kansas, USA",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Aerial Rice Terraces",
+    "image": "https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Hannah Brown",
+    "date": "Feb 15, 2026",
+    "description": "Ancient rice terraces carved into hillsides form a stunning series of curved green steps. The flooded paddies mirror the sky.",
+    "category": "Photography",
+    "location": "Bali, Indonesia",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Tokyo Night Streets",
+    "image": "https://images.pexels.com/photos/315191/pexels-photo-315191.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Kenji Sato",
+    "date": "Feb 27, 2026",
+    "description": "Bright neon lights illuminate the lively streets of Tokyo at night.",
+    "category": "Travel",
+    "location": "Tokyo, Japan",
+    "resolution": "5184 × 3456"
+  },
+  {
+    "title": "The Golden Wine Village",
+    "image": "https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Alex Carter",
+    "date": "Feb 16, 2026",
+    "description": "This picturesque village celebrated as one of the Germany's most beautiful municipalities.",
+    "category": "Photography",
+    "location": "Durbach, Germany",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Macro Flower Shot",
+    "image": "https://images.pexels.com/photos/36753/flower-purple-lical-blosso.jpg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Lily Adams",
+    "date": "Feb 13, 2026",
+    "description": "A macro photograph capturing delicate flower petals in vivid color.",
+    "category": "Photography",
+    "location": "Amsterdam, Netherlands",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Dubai Skyline Sunset",
+    "image": "https://images.pexels.com/photos/3787839/pexels-photo-3787839.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Ahmed Hassan",
+    "date": "Feb 26, 2026",
+    "description": "Modern skyscrapers glow in golden light as the sun sets over the city skyline.",
+    "category": "Travel",
+    "location": "Dubai, UAE",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Sydney Harbour Bridge",
+    "image": "https://images.pexels.com/photos/995764/pexels-photo-995764.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Ryan Walker",
+    "date": "Feb 20, 2026",
+    "description": "The famous Sydney Harbour Bridge stretches across sparkling blue waters.",
+    "category": "Travel",
+    "location": "Sydney, Australia",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Golden Desert Dunes",
+    "image": "https://images.pexels.com/photos/1001435/pexels-photo-1001435.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Ahmed Karim",
+    "date": "March 8, 2026",
+    "description": "Rolling sand dunes glow golden under the warm desert sun creating mesmerizing patterns.",
+    "category": "Nature",
+    "location": "Sahara Desert, Morocco",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Great Wall Landscape",
+    "image": "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Li Wei",
+    "date": "Feb 25, 2026",
+    "description": "The historic Great Wall stretches across green mountains under a bright blue sky.",
+    "category": "Travel",
+    "location": "Beijing, China",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Night City Long Exposure",
+    "image": "https://images.pexels.com/photos/2363/france-landmark-lights-night.jpg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Victor Lane",
+    "date": "Feb 12, 2026",
+    "description": "Long exposure photography captures colorful light trails across the city streets.",
+    "category": "Photography",
+    "location": "Paris, France",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Arc de Triomphe",
+    "image": "https://images.pexels.com/photos/1796722/pexels-photo-1796722.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Grace Wang",
+    "date": "Feb 27, 2026",
+    "description": "A monumental 50 meter tall Neoclassical arc that honors those who fought and died for France in French Revolutionary and Napoleonic Wars.",
+    "category": "Travel",
+    "location": "Paris, France",
+    "resolution": "5472 × 3648"
+  },
+  {
+    "title": "Swiss Alpine Village",
+    "image": "https://images.pexels.com/photos/210243/pexels-photo-210243.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Lucas Meyer",
+    "date": "Feb 21, 2026",
+    "description": "A charming alpine village surrounded by snow-capped mountains.",
+    "category": "Travel",
+    "location": "Zermatt, Switzerland",
+    "resolution": "6000 × 4000"
+  },
+  {
+    "title": "Vintage Camera",
+    "image": "https://images.pexels.com/photos/821738/pexels-photo-821738.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "user": "Robert Chen",
+    "date": "Feb 16, 2026",
+    "description": "A beautiful vintage camera sits on an old wooden desk. Each piece tells stories of photography through the ages.",
+    "category": "Photography",
+    "location": "Paris, France",
+    "resolution": "5472 × 3648"
+  }
+]
