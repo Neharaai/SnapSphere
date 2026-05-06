@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapSphere</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- ── Login / Signup Modal ──────────────────────────── -->
+    <div id="loginModal" class="modal" style="display:none;">
+        <div class="login-content">
+            <div class="login-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn"        onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="loginForm" class="auth-form active">
+                <div class="logo-large"><i class="fas fa-camera-retro"></i><span>SnapSphere</span></div>
+                <h2>Welcome Back</h2>
+                <div class="input-group"><i class="fas fa-envelope"></i><input type="email"     id="loginEmail"    placeholder="Email"></div>
+                <div class="input-group"><i class="fas fa-lock"></i>    <input type="password"  id="loginPassword" placeholder="Password"></div>
+                <button class="auth-btn" onclick="login()">Login</button>
+                <div class="auth-footer">Don't have an account? <a href="#" onclick="switchTab('signup')">Sign up</a></div>
+            </div>
+
+            <!-- SIGNUP FORM -->
+            <div id="signupForm" class="auth-form">
+                <div class="logo-large"><i class="fas fa-camera-retro"></i><span>SnapSphere</span></div>
+                <h2>Create Account</h2>
+                <div class="input-group"><i class="fas fa-user"></i>    <input type="text"      id="signupName"    placeholder="Full Name"></div>
+                <div class="input-group"><i class="fas fa-envelope"></i><input type="email"     id="signupEmail"   placeholder="Email"></div>
+                <div class="input-group"><i class="fas fa-lock"></i>    <input type="password"  id="signupPassword"placeholder="Password"></div>
+                <div class="input-group"><i class="fas fa-lock"></i>    <input type="password"  id="signupConfirm" placeholder="Confirm Password"></div>
+                <label class="terms"><input type="checkbox" id="termsCheck"> I agree to the Terms and Conditions</label>
+                <button class="auth-btn" onclick="signup()">Sign Up</button>
+                <div class="auth-footer">Already have an account? <a href="#" onclick="switchTab('login')">Login</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Main Website ──────────────────────────────────── -->
+    <div id="mainWebsite" style="display:block;">
+
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo" onclick="goHome()">
+                    <i class="fas fa-camera-retro"></i><span>SnapSphere</span>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search images, tags, locations...">
+                </div>
+                <div class="nav-right">
+                    <button class="upload-btn" onclick="openUploadPage()"><i class="fas fa-plus"></i> Upload</button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <i class="fas fa-user-circle default-avatar"></i>
+                        <span id="profileName">Guest</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="user-menu" id="userMenu">
+                <a href="#" onclick="showMyMedia()"><i class="fas fa-images"></i> My Media</a>
+                <div class="menu-divider"></div>
+                <a href="#" id="authMenuItem" onclick="showLoginModal()"><i class="fas fa-sign-in-alt"></i> Login / Sign Up</a>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="hero">
+            <h1>Capture. Store. Relive.</h1>
+            <p>Your moments, organised in one beautiful sphere</p>
+        </section>
+
+        <!-- Categories -->
+        <div class="categories">
+            <button class="category-btn active" data-cat="all"          onclick="filterCategory('all')">All</button>
+            <button class="category-btn"         data-cat="Photography" onclick="filterCategory('Photography')"><i class="fas fa-camera"></i> Photography</button>
+            <button class="category-btn"         data-cat="Nature"      onclick="filterCategory('Nature')"><i class="fas fa-leaf"></i> Nature</button>
+            <button class="category-btn"         data-cat="Travel"      onclick="filterCategory('Travel')"><i class="fas fa-plane"></i> Travel</button>
+            <button class="category-btn"         data-cat="Architecture"onclick="filterCategory('Architecture')"><i class="fas fa-building"></i> Architecture</button>
+            <button class="category-btn"         data-cat="Wildlife"    onclick="filterCategory('Wildlife')"><i class="fas fa-paw"></i> Wildlife</button>
+            <button class="category-btn"         data-cat="Street"      onclick="filterCategory('Street')"><i class="fas fa-road"></i> Street</button>
+            <button class="category-btn"         data-cat="Portrait"    onclick="filterCategory('Portrait')"><i class="fas fa-user"></i> Portrait</button>
+            <button class="category-btn"         data-cat="Abstract"    onclick="filterCategory('Abstract')"><i class="fas fa-shapes"></i> Abstract</button>
+            <button class="category-btn"         data-cat="mine"        onclick="filterCategory('mine')"><i class="fas fa-star"></i> My Uploads</button>
+        </div>
+
+        <!-- Media Grid -->
+        <div class="media-grid" id="mediaGrid"></div>
+
+        <!-- ── Upload Page ──────────────────────────────── -->
+        <div id="uploadPage" class="upload-page" style="display:none;">
+            <div class="upload-container">
+                <div class="upload-header">
+                    <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i> Back</button>
+                    <h2>Add to Your Sphere</h2>
+                </div>
+
+                <!-- Drop zone -->
+                <div class="upload-area" id="dropArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag &amp; drop your image here</h3>
+                    <p>or <span class="browse-link" onclick="document.getElementById('fileInput').click()">browse</span></p>
+                    <input type="file" id="fileInput" accept="image/*" style="display:none;">
+                </div>
+
+                <!-- Upload Form -->
+                <div class="upload-form">
+
+                    <!-- Section: Required -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-asterisk"></i> Required</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Title *</label>
+                                <input type="text" id="mediaTitle" placeholder="e.g. Sunset over the Alps">
+                            </div>
+                            <div class="form-group">
+                                <label>Category *</label>
+                                <select id="mediaCategory">
+                                    <option>Photography</option>
+                                    <option>Nature</option>
+                                    <option>Travel</option>
+                                    <option>Architecture</option>
+                                    <option>Wildlife</option>
+                                    <option>Street</option>
+                                    <option>Portrait</option>
+                                    <option>Abstract</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Location *</label>
+                            <input type="text" id="mediaLocation" placeholder="e.g. Zermatt, Switzerland">
+                        </div>
+                        <div class="form-group">
+                            <label>Description *</label>
+                            <textarea id="mediaDesc" placeholder="Describe this image…" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Section: Tags & Visibility -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-tags"></i> Tags &amp; Visibility</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Tags <span class="hint">(comma-separated)</span></label>
+                                <input type="text" id="mediaTags" placeholder="e.g. sunset, mountains, snow">
+                            </div>
+                            <div class="form-group">
+                                <label>Visibility</label>
+                                <select id="mediaVisibility">
+                                    <option value="public">Public — visible to everyone</option>
+                                    <option value="private">Private — only visible to me</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Camera Settings (optional) -->
+                    <div class="form-section collapsible">
+                        <h3 class="form-section-title toggle-section" onclick="toggleSection(this)">
+                            <i class="fas fa-camera"></i> Camera Settings
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                            <span class="optional-badge">optional</span>
+                        </h3>
+                        <div class="section-body" style="display:none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Camera / Device</label>
+                                    <input type="text" id="mediaCameraModel" placeholder="e.g. Sony A7 IV">
+                                </div>
+                                <div class="form-group">
+                                    <label>Date Taken</label>
+                                    <input type="date" id="mediaDateTaken">
+                                </div>
+                            </div>
+                            <div class="form-row four-col">
+                                <div class="form-group">
+                                    <label>Focal Length</label>
+                                    <input type="text" id="mediaFocalLength" placeholder="e.g. 50mm">
+                                </div>
+                                <div class="form-group">
+                                    <label>Aperture</label>
+                                    <input type="text" id="mediaAperture" placeholder="e.g. f/2.8">
+                                </div>
+                                <div class="form-group">
+                                    <label>ISO</label>
+                                    <input type="number" id="mediaISO" placeholder="e.g. 400">
+                                </div>
+                                <div class="form-group">
+                                    <label>Shutter Speed</label>
+                                    <input type="text" id="mediaShutterSpeed" placeholder="e.g. 1/500s">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="publish-btn" onclick="publishMedia()">
+                        <i class="fas fa-cloud-upload-alt"></i> Publish to SnapSphere
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /mainWebsite -->
+
+    <!-- Media Detail Modal -->
+    <div id="mediaModal" class="media-modal">
+        <div class="media-modal-content" id="mediaModalContent"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function toggleSection(header) {
+            const body = header.nextElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            const open = body.style.display !== 'none';
+            body.style.display = open ? 'none' : 'block';
+            icon.style.transform = open ? '' : 'rotate(180deg)';
+        }
+    </script>
+</body>
+</html>
