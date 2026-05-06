@@ -38,8 +38,8 @@ const mediaData = [
 // ============================================================
 // API CONFIG
 // ============================================================
-
-const API_BASE_URL = 'https://snapsphere-api-gng2afcpftawdqcr.francecentral-01.azurewebsites.net/api';
+// ⚠️ Change this to your Azure App Service URL before deploying
+const API_BASE_URL = 'http://localhost:5001/api';
 
 let authToken   = localStorage.getItem('snapsphere_token') || null;
 let currentUser = JSON.parse(localStorage.getItem('snapsphere_user')) || null;
@@ -108,9 +108,12 @@ function displayMediaGrid(data) {
         const uploadDate = media.upload_date || media.date || new Date().toLocaleDateString();
         const mediaId    = media.media_id || media.id;
         const tagsArr    = media.tags || [];
-        const isUserUpload = currentUser && (
-            (media.user_id && currentUser.id && media.user_id.toString() === currentUser.id.toString()) ||
-            (media.user === currentUser.name)
+        // FIXED: only show Mine/Delete if user_id strictly matches logged-in user
+        const isUserUpload = !!(
+            currentUser &&
+            media.user_id &&
+            currentUser.id &&
+            media.user_id.toString() === currentUser.id.toString()
         );
 
         card.innerHTML = `
@@ -346,8 +349,14 @@ function renderModal(media, fromDB) {
     const modal   = document.getElementById('mediaModal');
     const content = document.getElementById('mediaModalContent');
 
-    const isOwner = currentUser && fromDB && media.user_id &&
-                    media.user_id.toString() === currentUser.id.toString();
+    // FIXED ownership check for modal
+    const isOwner = !!(
+        currentUser &&
+        fromDB &&
+        media.user_id &&
+        currentUser.id &&
+        media.user_id.toString() === currentUser.id.toString()
+    );
 
     let imagePath = media.image_path || media.image || '';
     if (imagePath && !imagePath.startsWith('http')) imagePath = `http://localhost:5001${imagePath}`;
