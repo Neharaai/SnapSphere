@@ -39,7 +39,7 @@ const mediaData = [
 // API CONFIG
 // ============================================================
 // ⚠️ Change this to your Azure App Service URL before deploying
-const API_BASE_URL = 'http://localhost:5001/api';
+const API_BASE_URL = 'https://snapsphere-api-gng2afcpftawdqcr.francecentral-01.azurewebsites.net/api';
 
 let authToken   = localStorage.getItem('snapsphere_token') || null;
 let currentUser = JSON.parse(localStorage.getItem('snapsphere_user')) || null;
