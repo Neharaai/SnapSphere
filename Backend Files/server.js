@@ -16,12 +16,7 @@ const app = express();
 // ============================================================
 app.use(cors());
 app.use(express.json());
-
-const path = require('path');
-app.use(express.static(path.join(__dirname, '.')));
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+app.use(express.static(__dirname));
 
 // ============================================================
 // AZURE COSMOS DB CLIENT (NoSQL)
@@ -547,10 +542,6 @@ app.get('/health', (req, res) => {
 // START SERVER
 // ============================================================
 const PORT = process.env.PORT || 5001;
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend Files', 'index.html'));
-});
 
 initCosmosDB()
     .then(() => {
