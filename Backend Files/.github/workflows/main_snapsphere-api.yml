@@ -20,7 +20,6 @@ jobs:
           node-version: '22.x'
 
       - name: npm install, build, and test
-        working-directory: 'Backend Files'
         run: |
           npm install
           npm run build --if-present
@@ -30,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: 'Backend Files'
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
