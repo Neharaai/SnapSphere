@@ -24,8 +24,11 @@ app.use(express.static(__dirname));
 // ============================================================
 // AZURE COSMOS DB CLIENT (NoSQL)
 // ============================================================
-const cosmosClient = new CosmosClient(process.env.MONGODB_URI);
-const dbName = 'snapsphere';
+const cosmosClient = new CosmosClient({
+    endpoint: process.env.COSMOS_ENDPOINT,
+    key: process.env.COSMOS_KEY
+});
+const dbName = process.env.COSMOS_DATABASE_ID || 'snapsphere';
 
 let database, usersContainer, mediaContainer, categoriesContainer;
 
