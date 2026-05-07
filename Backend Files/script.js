@@ -3,7 +3,7 @@
 // ============================================================
 const API_BASE_URL = 'https://snapsphere-api-gng2afcpftawdqcr.francecentral-01.azurewebsites.net/api';
 
-// ── Logic App URLs for CRUD operations ──────────────────────
+// ── Logic App URLs ───────────────────────────────────────────
 const LOGIC_APP_GET    = 'https://prod-21.francecentral.logic.azure.com:443/workflows/e75ae775574d4794809b3c44991b68ca/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=KTgWObKTxJDpAiUUVYiQplXy6iVCUk6CPwkh0F5ucDo';
 const LOGIC_APP_CREATE = 'https://prod-13.francecentral.logic.azure.com:443/workflows/412c9b5ea0d9488993fedebe948519d3/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=Q8ORZXpmxFBQcv_3kxLTRYOmZjooIU-P9Wl5NbC5tHc';
 const LOGIC_APP_UPDATE = 'https://prod-30.francecentral.logic.azure.com:443/workflows/fb2370318271499db29dd26ec5859e40/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=pnupFCDc1VTuQiYZujP6JLASL3vP4C3jIokBX7Q_MU4';
@@ -13,7 +13,7 @@ let authToken   = localStorage.getItem('snapsphere_token') || null;
 let currentUser = JSON.parse(localStorage.getItem('snapsphere_user')) || null;
 
 // ============================================================
-// API HELPER (for Express backend — auth, upload)
+// API HELPER (Express backend — auth, upload, blob)
 // ============================================================
 async function apiRequest(endpoint, options = {}) {
     const headers = { 'Content-Type': 'application/json', ...options.headers };
@@ -27,13 +27,33 @@ async function apiRequest(endpoint, options = {}) {
 }
 
 // ============================================================
-// LOAD & DISPLAY MEDIA — via Logic App GET
+// LOGIC APP UPDATE HELPER
+// ============================================================
+async function logicAppUpdate(mediaDoc) {
+    await fetch(LOGIC_APP_UPDATE, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(mediaDoc)
+    });
+}
+
+// ============================================================
+// LOAD & DISPLAY MEDIA — newest first
 // ============================================================
 async function loadAllMedia() {
     try {
         const response = await fetch(LOGIC_APP_GET);
         const media = await response.json();
-        displayMediaGrid(Array.isArray(media) ? media : []);
+        if (!Array.isArray(media)) { displayMediaGrid([]); return; }
+
+        // Sort newest first by uploadDate
+        const sorted = media.sort((a, b) => {
+            const dateA = new Date(a.uploadDate || a.upload_date || 0);
+            const dateB = new Date(b.uploadDate || b.upload_date || 0);
+            return dateB - dateA;
+        });
+
+        displayMediaGrid(sorted);
     } catch {
         displayMediaGrid([]);
     }
@@ -63,7 +83,6 @@ function displayMediaGrid(data) {
         const card = document.createElement('div');
         card.className = 'media-card';
 
-        // Support both Express format (media_id) and Cosmos direct format (id)
         const mediaId  = media.media_id || media.id;
         const title    = media.title || 'Untitled';
         const username = media.username || 'Unknown';
@@ -77,7 +96,6 @@ function displayMediaGrid(data) {
         const tagsArr    = media.tags || [];
         const userId     = media.user_id || media.userId;
 
-        // Fixed ownership check
         const isUserUpload = !!(
             currentUser &&
             userId &&
@@ -104,23 +122,19 @@ function displayMediaGrid(data) {
 }
 
 // ============================================================
-// DELETE — via Logic App DELETE
+// DELETE — via Logic App
 // ============================================================
 async function deleteMedia(id, event) {
     event.stopPropagation();
     if (!currentUser) { alert('Please login first'); return; }
     if (!confirm('Permanently delete this image?')) return;
     try {
-        // Delete from Cosmos DB via Logic App
         await fetch(LOGIC_APP_DELETE, {
-            method: 'DELETE',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id })
         });
-        // Also delete from Express (removes blob from Azure Storage)
-        try {
-            await apiRequest(`/media/${id}`, { method: 'DELETE' });
-        } catch { /* blob deletion best effort */ }
+        try { await apiRequest(`/media/${id}`, { method: 'POST' }); } catch { }
         alert('Deleted successfully!');
         loadAllMedia();
     } catch (error) {
@@ -223,7 +237,7 @@ function logout() {
 }
 
 // ============================================================
-// UPLOAD — image goes to Express (Blob Storage), metadata to Logic App
+// UPLOAD
 // ============================================================
 function openUploadPage() {
     if (!currentUser) { alert('Please login first to upload images'); return; }
@@ -261,7 +275,6 @@ async function publishMedia() {
         const imageWidth  = this.width;
         const imageHeight = this.height;
 
-        // Step 1: Upload image to Azure Blob via Express
         const formData = new FormData();
         formData.append('title',          title);
         formData.append('location',       location);
@@ -281,6 +294,7 @@ async function publishMedia() {
         formData.append('image', file);
 
         try {
+            // Step 1: Upload image to Azure Blob via Express
             const response = await fetch(`${API_BASE_URL}/media`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${authToken}` },
@@ -292,7 +306,9 @@ async function publishMedia() {
             }
             const newMedia = await response.json();
 
-            // Step 2: Also save to Cosmos DB via Logic App CREATE
+            const uploadDate = new Date().toISOString();
+
+            // Step 2: Save metadata to Cosmos DB via Logic App CREATE
             await fetch(LOGIC_APP_CREATE, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -318,8 +334,8 @@ async function publishMedia() {
                     shutterSpeed:     shutterSpeed || null,
                     userId:           currentUser.id,
                     username:         currentUser.username,
-                    uploadDate:       new Date().toISOString(),
-                    lastModified:     new Date().toISOString(),
+                    uploadDate,
+                    lastModified:     uploadDate,
                     views:            0,
                     likes:            0,
                     downloads:        0,
@@ -348,18 +364,24 @@ async function publishMedia() {
 }
 
 // ============================================================
-// MEDIA DETAILS MODAL
+// MEDIA DETAILS MODAL — increments views via Logic App
 // ============================================================
 function openMediaDetails(id, mediaObj) {
-    // Use passed media object if available (from grid), otherwise fetch
     if (mediaObj) {
-        renderModal(mediaObj);
+        // Increment view count via Logic App
+        const updatedMedia = { ...mediaObj, views: (mediaObj.views || 0) + 1, lastModified: new Date().toISOString() };
+        logicAppUpdate(updatedMedia).catch(() => {});
+        renderModal(updatedMedia);
     } else {
         fetch(LOGIC_APP_GET)
             .then(r => r.json())
             .then(all => {
                 const found = all.find(m => (m.id || m.media_id) === id);
-                if (found) renderModal(found);
+                if (found) {
+                    const updatedMedia = { ...found, views: (found.views || 0) + 1, lastModified: new Date().toISOString() };
+                    logicAppUpdate(updatedMedia).catch(() => {});
+                    renderModal(updatedMedia);
+                }
             })
             .catch(() => {});
     }
@@ -407,12 +429,12 @@ function renderModal(media) {
     const dateTaken    = media.date_taken || media.dateTaken;
     const dateTakenStr = dateTaken
         ? `<div class="meta-item"><i class="fas fa-calendar-alt"></i> Taken: ${new Date(dateTaken).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</div>` : '';
-    const downloads    = media.downloads ?? '';
-    const views        = media.views ?? 0;
-    const likes        = media.likes ?? 0;
-    const location     = media.location || '';
-    const category     = media.category || '';
-    const visibility   = media.visibility || 'public';
+    const downloads = media.downloads ?? 0;
+    const views     = media.views     ?? 0;
+    const likes     = media.likes     ?? 0;
+    const location  = media.location  || '';
+    const category  = media.category  || '';
+    const visibility = media.visibility || 'public';
 
     content.innerHTML = `
         <button class="modal-close" onclick="document.getElementById('mediaModal').classList.remove('show')">✕</button>
@@ -436,14 +458,14 @@ function renderModal(media) {
             <div class="modal-stats">
                 <span><i class="fas fa-eye"></i> ${views} views</span>
                 <span><i class="fas fa-heart"></i> <span id="likeCount">${likes}</span> likes</span>
-                ${downloads !== '' ? `<span><i class="fas fa-download"></i> ${downloads} downloads</span>` : ''}
+                <span><i class="fas fa-download"></i> ${downloads} downloads</span>
                 ${visibility === 'private' ? '<span><i class="fas fa-lock"></i> Private</span>' : ''}
             </div>
             <div class="modal-actions">
-                <button class="action-btn like-btn" onclick="likeMedia('${mediaId}')">
+                <button class="action-btn like-btn" onclick="likeMedia('${mediaId}', ${JSON.stringify(media).replace(/'/g, "&#39;")})">
                     <i class="fas fa-heart"></i> Like
                 </button>
-                <button class="action-btn download-btn" onclick="downloadMedia('${mediaId}', '${imagePath}')">
+                <button class="action-btn download-btn" onclick="downloadMedia('${mediaId}', '${imagePath}', ${JSON.stringify(media).replace(/'/g, "&#39;")})">
                     <i class="fas fa-download"></i> Download
                 </button>
                 ${isOwner ? `
@@ -460,23 +482,50 @@ function renderModal(media) {
 }
 
 // ============================================================
-// LIKE & DOWNLOAD
+// LIKE — via Logic App UPDATE
 // ============================================================
-async function likeMedia(id) {
+async function likeMedia(id, mediaObj) {
     if (!currentUser) { alert('Please login to like images'); return; }
     try {
-        const result = await apiRequest(`/media/${id}/like`, { method: 'POST' });
+        // Get latest media data
+        let media = mediaObj;
+        if (!media) {
+            const response = await fetch(LOGIC_APP_GET);
+            const all = await response.json();
+            media = all.find(m => (m.id || m.media_id) === id);
+        }
+        if (!media) return;
+
+        const updatedMedia = { ...media, likes: (media.likes || 0) + 1, lastModified: new Date().toISOString() };
+
+        // Update via Logic App
+        await logicAppUpdate(updatedMedia);
+
+        // Update display
         const el = document.getElementById('likeCount');
-        if (el) el.textContent = result.likes;
+        if (el) el.textContent = updatedMedia.likes;
     } catch (error) {
         alert('Could not like: ' + error.message);
     }
 }
 
-async function downloadMedia(id, imageUrl) {
+// ============================================================
+// DOWNLOAD — increments downloads via Logic App
+// ============================================================
+async function downloadMedia(id, imageUrl, mediaObj) {
     try {
-        await apiRequest(`/media/${id}/download`, { method: 'POST' });
+        let media = mediaObj;
+        if (!media) {
+            const response = await fetch(LOGIC_APP_GET);
+            const all = await response.json();
+            media = all.find(m => (m.id || m.media_id) === id);
+        }
+        if (media) {
+            const updatedMedia = { ...media, downloads: (media.downloads || 0) + 1, lastModified: new Date().toISOString() };
+            logicAppUpdate(updatedMedia).catch(() => {});
+        }
     } catch { /* non-critical */ }
+
     const a = document.createElement('a');
     a.href     = imageUrl;
     a.download = `snapsphere-${id}.jpg`;
@@ -492,7 +541,6 @@ async function downloadMedia(id, imageUrl) {
 async function openEditModal(mediaId) {
     document.getElementById('mediaModal').classList.remove('show');
     try {
-        // Fetch current media from Logic App
         const response = await fetch(LOGIC_APP_GET);
         const all = await response.json();
         const media = all.find(m => (m.id || m.media_id) === mediaId);
@@ -519,36 +567,23 @@ async function openEditModal(mediaId) {
         publishBtn.textContent = 'Save Changes';
         publishBtn.onclick = async function () {
             const updatedFields = {
-                id:           mediaId,
+                ...media,
                 title:        document.getElementById('mediaTitle').value,
                 location:     document.getElementById('mediaLocation').value,
                 description:  document.getElementById('mediaDesc').value,
                 category:     document.getElementById('mediaCategory').value,
                 tags:         document.getElementById('mediaTags').value.split(',').map(t => t.trim()).filter(Boolean),
-                cameraModel:  document.getElementById('mediaCameraModel').value,
-                focalLength:  document.getElementById('mediaFocalLength').value,
-                aperture:     document.getElementById('mediaAperture').value,
+                cameraModel:  document.getElementById('mediaCameraModel').value || null,
+                focalLength:  document.getElementById('mediaFocalLength').value || null,
+                aperture:     document.getElementById('mediaAperture').value || null,
                 iso:          Number(document.getElementById('mediaISO').value) || null,
-                shutterSpeed: document.getElementById('mediaShutterSpeed').value,
+                shutterSpeed: document.getElementById('mediaShutterSpeed').value || null,
                 visibility:   document.getElementById('mediaVisibility').value,
                 dateTaken:    document.getElementById('mediaDateTaken').value || null,
-                // Preserve existing fields
-                imagePath:        media.imagePath || media.image_path,
-                userId:           media.userId    || media.user_id,
-                username:         media.username,
-                uploadDate:       media.uploadDate || media.upload_date,
-                lastModified:     new Date().toISOString(),
-                views:            media.views    || 0,
-                likes:            media.likes    || 0,
-                downloads:        media.downloads || 0,
-                featured:         media.featured  || false
+                lastModified: new Date().toISOString()
             };
             try {
-                await fetch(LOGIC_APP_UPDATE, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(updatedFields)
-                });
+                await logicAppUpdate(updatedFields);
                 alert('Changes saved!');
                 goHome();
                 publishBtn.textContent = 'Publish';
@@ -580,18 +615,18 @@ async function filterCategory(cat) {
     document.querySelectorAll('.category-btn').forEach(btn =>
         btn.classList.toggle('active', btn.dataset.cat === cat)
     );
-    if (cat === 'all') {
-        loadAllMedia();
-        return;
-    }
     try {
         const response = await fetch(LOGIC_APP_GET);
         const all = await response.json();
-        if (cat === 'mine') {
+        const sorted = all.sort((a, b) => new Date(b.uploadDate || b.upload_date || 0) - new Date(a.uploadDate || a.upload_date || 0));
+
+        if (cat === 'all') {
+            displayMediaGrid(sorted);
+        } else if (cat === 'mine') {
             if (!currentUser) { alert('Please login first'); return; }
-            displayMediaGrid(all.filter(m => (m.userId || m.user_id) === currentUser.id));
+            displayMediaGrid(sorted.filter(m => (m.userId || m.user_id) === currentUser.id));
         } else {
-            displayMediaGrid(all.filter(m => m.category === cat));
+            displayMediaGrid(sorted.filter(m => m.category === cat));
         }
     } catch {
         displayMediaGrid([]);
@@ -603,7 +638,10 @@ async function showMyMedia() {
     try {
         const response = await fetch(LOGIC_APP_GET);
         const all = await response.json();
-        displayMediaGrid(all.filter(m => (m.userId || m.user_id) === currentUser.id));
+        const mine = all
+            .filter(m => (m.userId || m.user_id) === currentUser.id)
+            .sort((a, b) => new Date(b.uploadDate || 0) - new Date(a.uploadDate || 0));
+        displayMediaGrid(mine);
     } catch { alert('Failed to load your media'); }
     document.getElementById('userMenu').classList.remove('show');
 }
@@ -621,12 +659,15 @@ document.getElementById('searchInput')?.addEventListener('input', async function
         try {
             const response = await fetch(LOGIC_APP_GET);
             const all = await response.json();
-            displayMediaGrid(all.filter(m =>
-                (m.title || '').toLowerCase().includes(term) ||
-                (m.description || '').toLowerCase().includes(term) ||
-                (m.location || '').toLowerCase().includes(term) ||
-                (m.tags || []).some(t => t.toLowerCase().includes(term))
-            ));
+            const results = all
+                .filter(m =>
+                    (m.title || '').toLowerCase().includes(term) ||
+                    (m.description || '').toLowerCase().includes(term) ||
+                    (m.location || '').toLowerCase().includes(term) ||
+                    (m.tags || []).some(t => t.toLowerCase().includes(term))
+                )
+                .sort((a, b) => new Date(b.uploadDate || 0) - new Date(a.uploadDate || 0));
+            displayMediaGrid(results);
         } catch {
             displayMediaGrid([]);
         }
