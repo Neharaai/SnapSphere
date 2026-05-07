@@ -1,51 +1,19 @@
 // ============================================================
-// SAMPLE DATA — shown when backend is unavailable (fallback only)
-// ============================================================
-const mediaData = [
-    { id: 1,  title: "Mountain Lake Serenity",   image: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Alex Chen",        date: "March 15, 2026",   description: "A tranquil morning at Lake Moraine in the Canadian Rockies.",                                 category: "Nature",       location: "Moraine Lake, Canada",          resolution: "5472 × 3648", tags: ["lake","mountains","canada"] },
-    { id: 2,  title: "Urban Geometry",            image: "https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Sarah Williams",   date: "Feb 23, 2026",     description: "The striking architecture of The Shard creates geometric patterns against the sky.",           category: "Architecture", location: "London, UK",                    resolution: "4000 × 6000", tags: ["london","architecture","shard"] },
-    { id: 3,  title: "Autumn Symphony",           image: "https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg?auto=compress&cs=tinysrgb&w=600",  user: "Rachel Green",     date: "March 12, 2026",   description: "Maple and birch trees explode in shades of orange, red, and gold.",                            category: "Nature",       location: "White Mountains, USA",          resolution: "7360 × 4912", tags: ["autumn","forest","usa"] },
-    { id: 4,  title: "Cherry Blossom Trees",      image: "https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Yuki Tanaka",      date: "March 4, 2026",    description: "Cherry blossom trees bloom in soft pink colors during spring.",                                category: "Nature",       location: "Kyoto, Japan",                  resolution: "6000 × 4000", tags: ["japan","blossom","spring"] },
-    { id: 5,  title: "Tropical Paradise Cove",    image: "https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Mike Johnson",     date: "March 5, 2026",    description: "Hidden away in the Phi Phi Islands, this secluded cove offers the perfect escape.",            category: "Travel",       location: "Phi Phi Islands, Thailand",     resolution: "6000 × 4000", tags: ["beach","thailand","sea"] },
-    { id: 6,  title: "Statue of Liberty",         image: "https://images.pexels.com/photos/290386/pexels-photo-290386.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Jessica Lee",      date: "Feb 22, 2026",     description: "A colossal copper monument on Liberty Island symbolising freedom.",                            category: "Travel",       location: "New York, USA",                 resolution: "7952 × 5304", tags: ["newyork","landmark","usa"] },
-    { id: 7,  title: "Mountain Trail Adventure",  image: "https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Adventure Alex",   date: "March 2, 2026",    description: "The Highline Trail offers stunning views of alpine meadows.",                                  category: "Travel",       location: "Glacier National Park, USA",    resolution: "7360 × 4912", tags: ["hiking","mountains","usa"] },
-    { id: 8,  title: "Ancient Greek Temple",      image: "https://images.pexels.com/photos/951531/pexels-photo-951531.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Luca Ferrari",     date: "Feb 28, 2026",     description: "Ancient Doric columns stand against a clear blue sky.",                                        category: "Architecture", location: "Athens, Greece",                resolution: "5472 × 3648", tags: ["greece","ancient","architecture"] },
-    { id: 9,  title: "Majestic Waterfall",        image: "https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "David Miller",     date: "March 13, 2026",   description: "Skógafoss thunders down 60 metres with rainbows appearing in the mist.",                      category: "Nature",       location: "Skógar, Iceland",               resolution: "6000 × 4000", tags: ["iceland","waterfall","nature"] },
-    { id: 10, title: "Winter Wonderland",         image: "https://images.pexels.com/photos/688660/pexels-photo-688660.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Winter Lover",     date: "March 8, 2026",    description: "Fresh powder blankets the trees after a major snowstorm in the Swiss Alps.",                   category: "Nature",       location: "Zermatt, Switzerland",          resolution: "5472 × 3648", tags: ["snow","alps","winter"] },
-    { id: 11, title: "Tropical Island",           image: "https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Island Explorer",  date: "Feb 25, 2026",     description: "Crystal-clear waters and sun-kissed shores of Bora Bora.",                                     category: "Travel",       location: "Bora Bora, French Polynesia",   resolution: "6000 × 4000", tags: ["borabora","paradise","tropical"] },
-    { id: 12, title: "Manhattan Skyline",         image: "https://images.pexels.com/photos/290595/pexels-photo-290595.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Amanda Lee",       date: "Feb 18, 2026",     description: "The world-famous skyline of glass towers reflected in the water.",                             category: "Photography",  location: "New York, USA",                 resolution: "5184 × 3456", tags: ["newyork","skyline","cityscape"] },
-    { id: 13, title: "Enchanted Forest Trail",    image: "https://images.pexels.com/photos/38136/pexels-photo-38136.jpeg?auto=compress&cs=tinysrgb&w=600",     user: "Emma Davis",       date: "March 14, 2026",   description: "Morning light filters through ancient maple trees draped in moss.",                            category: "Nature",       location: "Olympic National Park, USA",    resolution: "5184 × 3456", tags: ["forest","usa","nature"] },
-    { id: 14, title: "Venice Canal Boats",        image: "https://images.pexels.com/photos/208701/pexels-photo-208701.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Marco Rossi",      date: "March 1, 2026",    description: "Colourful gondolas float along Venice's historic canals.",                                     category: "Travel",       location: "Venice, Italy",                 resolution: "5472 × 3648", tags: ["venice","italy","gondola"] },
-    { id: 15, title: "Aurora Borealis",           image: "https://images.pexels.com/photos/1938348/pexels-photo-1938348.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Tom Wilson",       date: "Feb 21, 2026",     description: "The Northern Lights dance across the Arctic sky in green and purple.",                         category: "Photography",  location: "Tromsø, Norway",                resolution: "7952 × 5304", tags: ["aurora","norway","northernlights"] },
-    { id: 16, title: "Snow Covered Mountain",     image: "https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Emily Stone",      date: "March 10, 2026",   description: "A breathtaking snow-covered mountain peak rises above the clouds.",                            category: "Nature",       location: "Alps, Switzerland",             resolution: "6000 × 4000", tags: ["mountains","snow","alps"] },
-    { id: 17, title: "Coffee Shop Vibes",         image: "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Coffee Lover",     date: "Feb 19, 2026",     description: "Morning light streams through the windows as steam rises from freshly brewed coffee.",         category: "Street",       location: "Seattle, USA",                  resolution: "5472 × 3648", tags: ["coffee","seattle","cafe"] },
-    { id: 18, title: "Bali Rice Terraces",        image: "https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Dewi Putra",       date: "Feb 23, 2026",     description: "Lush green rice terraces cascade down the hillside in Bali.",                                  category: "Travel",       location: "Bali, Indonesia",               resolution: "5184 × 3456", tags: ["bali","rice","indonesia"] },
-    { id: 19, title: "Dramatic Storm Clouds",     image: "https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Samuel Garcia",    date: "March 6, 2026",    description: "Storm clouds gather over a vast prairie creating a powerful atmospheric scene.",               category: "Nature",       location: "Kansas, USA",                   resolution: "6000 × 4000", tags: ["storm","weather","usa"] },
-    { id: 20, title: "Aurora Night Sky",          image: "https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Hannah Brown",     date: "Feb 15, 2026",     description: "Ancient rice terraces form a stunning series of curved green steps.",                          category: "Photography",  location: "Bali, Indonesia",               resolution: "6000 × 4000", tags: ["bali","aerial","photography"] },
-    { id: 21, title: "Tokyo Night Streets",       image: "https://images.pexels.com/photos/315191/pexels-photo-315191.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Kenji Sato",       date: "Feb 27, 2026",     description: "Bright neon lights illuminate the lively streets of Tokyo at night.",                         category: "Street",       location: "Tokyo, Japan",                  resolution: "5184 × 3456", tags: ["tokyo","night","japan"] },
-    { id: 22, title: "The Golden Wine Village",   image: "https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Alex Carter",      date: "Feb 16, 2026",     description: "One of Germany's most beautiful municipalities bathed in golden light.",                       category: "Travel",       location: "Durbach, Germany",              resolution: "5472 × 3648", tags: ["germany","village","travel"] },
-    { id: 23, title: "Macro Flower Shot",         image: "https://images.pexels.com/photos/36753/flower-purple-lical-blosso.jpg?auto=compress&cs=tinysrgb&w=600", user: "Lily Adams",    date: "Feb 13, 2026",     description: "A macro photograph capturing delicate flower petals in vivid colour.",                         category: "Photography",  location: "Amsterdam, Netherlands",        resolution: "6000 × 4000", tags: ["macro","flower","purple"] },
-    { id: 24, title: "Dubai Skyline Sunset",      image: "https://images.pexels.com/photos/3787839/pexels-photo-3787839.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Ahmed Hassan",     date: "Feb 26, 2026",     description: "Modern skyscrapers glow in golden light as the sun sets over the city.",                       category: "Architecture", location: "Dubai, UAE",                    resolution: "6000 × 4000", tags: ["dubai","sunset","skyline"] },
-    { id: 25, title: "Sydney Harbour Bridge",     image: "https://images.pexels.com/photos/995764/pexels-photo-995764.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Ryan Walker",      date: "Feb 20, 2026",     description: "The famous Sydney Harbour Bridge stretches across sparkling blue waters.",                     category: "Travel",       location: "Sydney, Australia",             resolution: "5472 × 3648", tags: ["sydney","australia","bridge"] },
-    { id: 26, title: "Golden Desert Dunes",       image: "https://images.pexels.com/photos/1001435/pexels-photo-1001435.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Ahmed Karim",      date: "March 8, 2026",    description: "Rolling sand dunes glow golden under the warm desert sun.",                                    category: "Nature",       location: "Sahara Desert, Morocco",        resolution: "6000 × 4000", tags: ["desert","sahara","dunes"] },
-    { id: 27, title: "Great Wall Landscape",      image: "https://images.pexels.com/photos/2412603/pexels-photo-2412603.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Li Wei",           date: "Feb 25, 2026",     description: "The historic Great Wall stretches across green mountains.",                                    category: "Architecture", location: "Beijing, China",                resolution: "5472 × 3648", tags: ["china","greatwall","history"] },
-    { id: 28, title: "Night City Long Exposure",  image: "https://images.pexels.com/photos/2363/france-landmark-lights-night.jpg?auto=compress&cs=tinysrgb&w=600", user: "Victor Lane",  date: "Feb 12, 2026",     description: "Long exposure captures colourful light trails across city streets.",                           category: "Photography",  location: "Paris, France",                 resolution: "5472 × 3648", tags: ["paris","longexposure","night"] },
-    { id: 29, title: "Arc de Triomphe",           image: "https://images.pexels.com/photos/1796722/pexels-photo-1796722.jpeg?auto=compress&cs=tinysrgb&w=600", user: "Grace Wang",       date: "Feb 27, 2026",     description: "A monumental Neoclassical arc honouring those who fought for France.",                         category: "Architecture", location: "Paris, France",                 resolution: "5472 × 3648", tags: ["paris","france","monument"] },
-    { id: 30, title: "Swiss Alpine Village",      image: "https://images.pexels.com/photos/210243/pexels-photo-210243.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Lucas Meyer",      date: "Feb 21, 2026",     description: "A charming alpine village surrounded by snow-capped mountains.",                               category: "Travel",       location: "Zermatt, Switzerland",          resolution: "6000 × 4000", tags: ["switzerland","village","alps"] },
-    { id: 31, title: "Vintage Camera",            image: "https://images.pexels.com/photos/821738/pexels-photo-821738.jpeg?auto=compress&cs=tinysrgb&w=600",   user: "Robert Chen",      date: "Feb 16, 2026",     description: "A beautiful vintage camera sits on an old wooden desk.",                                       category: "Photography",  location: "Paris, France",                 resolution: "5472 × 3648", tags: ["camera","vintage","photography"] }
-];
-
-// ============================================================
 // API CONFIG
 // ============================================================
-// ⚠️ Change this to your Azure App Service URL before deploying
 const API_BASE_URL = 'https://snapsphere-api-gng2afcpftawdqcr.francecentral-01.azurewebsites.net/api';
+
+// ── Logic App URLs for CRUD operations ──────────────────────
+const LOGIC_APP_GET    = 'https://prod-21.francecentral.logic.azure.com:443/workflows/e75ae775574d4794809b3c44991b68ca/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=KTgWObKTxJDpAiUUVYiQplXy6iVCUk6CPwkh0F5ucDo';
+const LOGIC_APP_CREATE = 'https://prod-13.francecentral.logic.azure.com:443/workflows/412c9b5ea0d9488993fedebe948519d3/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=Q8ORZXpmxFBQcv_3kxLTRYOmZjooIU-P9Wl5NbC5tHc';
+const LOGIC_APP_UPDATE = 'https://prod-30.francecentral.logic.azure.com:443/workflows/fb2370318271499db29dd26ec5859e40/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=pnupFCDc1VTuQiYZujP6JLASL3vP4C3jIokBX7Q_MU4';
+const LOGIC_APP_DELETE = 'https://prod-29.francecentral.logic.azure.com:443/workflows/fe927b14a1084d63a4d76aab9ed46d6b/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=cbF2-qELBa6u6JxO3WnV5ZlLWODu9W8JlMSXhYhi_ew';
 
 let authToken   = localStorage.getItem('snapsphere_token') || null;
 let currentUser = JSON.parse(localStorage.getItem('snapsphere_user')) || null;
 
 // ============================================================
-// API HELPER
+// API HELPER (for Express backend — auth, upload)
 // ============================================================
 async function apiRequest(endpoint, options = {}) {
     const headers = { 'Content-Type': 'application/json', ...options.headers };
@@ -59,15 +27,15 @@ async function apiRequest(endpoint, options = {}) {
 }
 
 // ============================================================
-// LOAD & DISPLAY MEDIA
+// LOAD & DISPLAY MEDIA — via Logic App GET
 // ============================================================
 async function loadAllMedia() {
     try {
-        const media = await apiRequest('/media');
-        const allMedia = [...media, ...mediaData];
-        displayMediaGrid(allMedia);
+        const response = await fetch(LOGIC_APP_GET);
+        const media = await response.json();
+        displayMediaGrid(Array.isArray(media) ? media : []);
     } catch {
-        displayMediaGrid(mediaData);
+        displayMediaGrid([]);
     }
 }
 
@@ -82,7 +50,7 @@ function displayMediaGrid(data) {
     const grid = document.getElementById('mediaGrid');
     grid.innerHTML = '';
 
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
         grid.innerHTML = `<div class="no-media">
             <i class="fas fa-camera-retro"></i>
             <h3>Your sphere is empty</h3>
@@ -94,27 +62,30 @@ function displayMediaGrid(data) {
     data.forEach(media => {
         const card = document.createElement('div');
         card.className = 'media-card';
-        card.onclick = () => openMediaDetails(media.media_id || media.id);
 
-        const title     = media.title || 'Untitled';
-        const username  = media.username || media.user || 'Unknown';
-        let imagePath   = media.image_path || media.image || '';
+        // Support both Express format (media_id) and Cosmos direct format (id)
+        const mediaId  = media.media_id || media.id;
+        const title    = media.title || 'Untitled';
+        const username = media.username || 'Unknown';
+        let imagePath  = media.image_path || media.imagePath || '';
 
-        // Fix relative paths from old local uploads
         if (imagePath && !imagePath.startsWith('http')) {
-            imagePath = `http://localhost:5001${imagePath}`;
+            imagePath = `https://snapsphere-api-gng2afcpftawdqcr.francecentral-01.azurewebsites.net${imagePath}`;
         }
 
-        const uploadDate = media.upload_date || media.date || new Date().toLocaleDateString();
-        const mediaId    = media.media_id || media.id;
+        const uploadDate = media.upload_date || media.uploadDate || new Date().toISOString();
         const tagsArr    = media.tags || [];
-        // FIXED: only show Mine/Delete if user_id strictly matches logged-in user
+        const userId     = media.user_id || media.userId;
+
+        // Fixed ownership check
         const isUserUpload = !!(
             currentUser &&
-            media.user_id &&
+            userId &&
             currentUser.id &&
-            media.user_id.toString() === currentUser.id.toString()
+            userId.toString() === currentUser.id.toString()
         );
+
+        card.onclick = () => openMediaDetails(mediaId, media);
 
         card.innerHTML = `
             <img src="${imagePath}" alt="${title}" loading="lazy"
@@ -133,14 +104,23 @@ function displayMediaGrid(data) {
 }
 
 // ============================================================
-// DELETE
+// DELETE — via Logic App DELETE
 // ============================================================
 async function deleteMedia(id, event) {
     event.stopPropagation();
     if (!currentUser) { alert('Please login first'); return; }
     if (!confirm('Permanently delete this image?')) return;
     try {
-        await apiRequest(`/media/${id}`, { method: 'DELETE' });
+        // Delete from Cosmos DB via Logic App
+        await fetch(LOGIC_APP_DELETE, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+        // Also delete from Express (removes blob from Azure Storage)
+        try {
+            await apiRequest(`/media/${id}`, { method: 'DELETE' });
+        } catch { /* blob deletion best effort */ }
         alert('Deleted successfully!');
         loadAllMedia();
     } catch (error) {
@@ -243,7 +223,7 @@ function logout() {
 }
 
 // ============================================================
-// UPLOAD — with rich metadata fields
+// UPLOAD — image goes to Express (Blob Storage), metadata to Logic App
 // ============================================================
 function openUploadPage() {
     if (!currentUser) { alert('Please login first to upload images'); return; }
@@ -275,13 +255,13 @@ async function publishMedia() {
     if (!file.type.startsWith('image/')) { alert('Please select an image file'); return; }
     if (file.size > 10 * 1024 * 1024) { alert('File too large. Maximum 10 MB.'); return; }
 
-    // Detect image dimensions before uploading
     const img = new Image();
     img.onload = async function () {
         const resolution  = `${this.width} × ${this.height}`;
         const imageWidth  = this.width;
         const imageHeight = this.height;
 
+        // Step 1: Upload image to Azure Blob via Express
         const formData = new FormData();
         formData.append('title',          title);
         formData.append('location',       location);
@@ -300,19 +280,55 @@ async function publishMedia() {
         if (dateTaken) formData.append('date_taken', dateTaken);
         formData.append('image', file);
 
-        const token = localStorage.getItem('snapsphere_token');
         try {
             const response = await fetch(`${API_BASE_URL}/media`, {
                 method: 'POST',
-                headers: { 'Authorization': `Bearer ${token}` },
+                headers: { 'Authorization': `Bearer ${authToken}` },
                 body: formData
             });
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}));
                 throw new Error(err.error || response.statusText);
             }
+            const newMedia = await response.json();
+
+            // Step 2: Also save to Cosmos DB via Logic App CREATE
+            await fetch(LOGIC_APP_CREATE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id:               newMedia.media_id,
+                    title,
+                    description:      desc,
+                    imagePath:        newMedia.image_path,
+                    originalFilename: file.name,
+                    mimeType:         file.type,
+                    fileSize:         file.size,
+                    resolution,
+                    imageWidth,
+                    imageHeight,
+                    location,
+                    dateTaken:        dateTaken || null,
+                    category:         cat,
+                    tags:             tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : [],
+                    cameraModel:      cameraModel || null,
+                    focalLength:      focalLength || null,
+                    aperture:         aperture    || null,
+                    iso:              iso ? Number(iso) : null,
+                    shutterSpeed:     shutterSpeed || null,
+                    userId:           currentUser.id,
+                    username:         currentUser.username,
+                    uploadDate:       new Date().toISOString(),
+                    lastModified:     new Date().toISOString(),
+                    views:            0,
+                    likes:            0,
+                    downloads:        0,
+                    visibility:       visibility === 'private' ? 'private' : 'public',
+                    featured:         false
+                })
+            });
+
             alert('Uploaded successfully!');
-            // Clear form
             ['mediaTitle','mediaLocation','mediaDesc','mediaTags',
              'mediaCameraModel','mediaFocalLength','mediaAperture',
              'mediaISO','mediaShutterSpeed','mediaDateTaken'].forEach(id => {
@@ -332,57 +348,71 @@ async function publishMedia() {
 }
 
 // ============================================================
-// OPEN MEDIA DETAILS MODAL
+// MEDIA DETAILS MODAL
 // ============================================================
-async function openMediaDetails(id) {
-    try {
-        const media = await apiRequest(`/media/${id}`);
-        renderModal(media, true);
-    } catch {
-        // Fallback for sample data
-        const media = mediaData.find(m => m.id == id);
-        if (media) renderModal(media, false);
+function openMediaDetails(id, mediaObj) {
+    // Use passed media object if available (from grid), otherwise fetch
+    if (mediaObj) {
+        renderModal(mediaObj);
+    } else {
+        fetch(LOGIC_APP_GET)
+            .then(r => r.json())
+            .then(all => {
+                const found = all.find(m => (m.id || m.media_id) === id);
+                if (found) renderModal(found);
+            })
+            .catch(() => {});
     }
 }
 
-function renderModal(media, fromDB) {
+function renderModal(media) {
     const modal   = document.getElementById('mediaModal');
     const content = document.getElementById('mediaModalContent');
 
-    // FIXED ownership check for modal
+    const mediaId  = media.media_id || media.id;
+    const userId   = media.user_id  || media.userId;
+
     const isOwner = !!(
         currentUser &&
-        fromDB &&
-        media.user_id &&
+        userId &&
         currentUser.id &&
-        media.user_id.toString() === currentUser.id.toString()
+        userId.toString() === currentUser.id.toString()
     );
 
-    let imagePath = media.image_path || media.image || '';
-    if (imagePath && !imagePath.startsWith('http')) imagePath = `http://localhost:5001${imagePath}`;
+    let imagePath = media.image_path || media.imagePath || '';
+    if (imagePath && !imagePath.startsWith('http'))
+        imagePath = `https://snapsphere-api-gng2afcpftawdqcr.francecentral-01.azurewebsites.net${imagePath}`;
 
-    const uploadDate = new Date(media.upload_date || media.date).toLocaleDateString('en-GB', {
-        day: 'numeric', month: 'long', year: 'numeric'
-    });
+    const uploadDate = new Date(media.upload_date || media.uploadDate || Date.now())
+        .toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-    const tagsArr    = media.tags || [];
-    const tagsHTML   = tagsArr.length
+    const tagsArr  = media.tags || [];
+    const tagsHTML = tagsArr.length
         ? `<div class="modal-tags">${tagsArr.map(t => `<span class="tag">#${t}</span>`).join('')}</div>` : '';
 
-    // Camera settings row — only show fields that exist
-    const camParts = [];
-    if (media.camera_model)  camParts.push(`<span><i class="fas fa-camera"></i> ${media.camera_model}</span>`);
-    if (media.focal_length)  camParts.push(`<span>${media.focal_length}</span>`);
-    if (media.aperture)      camParts.push(`<span>${media.aperture}</span>`);
-    if (media.iso)           camParts.push(`<span>ISO ${media.iso}</span>`);
-    if (media.shutter_speed) camParts.push(`<span>${media.shutter_speed}</span>`);
-    const camHTML = camParts.length
-        ? `<div class="modal-camera">${camParts.join(' · ')}</div>` : '';
+    const camModel  = media.camera_model  || media.cameraModel;
+    const focalLen  = media.focal_length  || media.focalLength;
+    const shutter   = media.shutter_speed || media.shutterSpeed;
+    const camParts  = [];
+    if (camModel)        camParts.push(`<span><i class="fas fa-camera"></i> ${camModel}</span>`);
+    if (focalLen)        camParts.push(`<span>${focalLen}</span>`);
+    if (media.aperture)  camParts.push(`<span>${media.aperture}</span>`);
+    if (media.iso)       camParts.push(`<span>ISO ${media.iso}</span>`);
+    if (shutter)         camParts.push(`<span>${shutter}</span>`);
+    const camHTML = camParts.length ? `<div class="modal-camera">${camParts.join(' · ')}</div>` : '';
 
-    const fileSizeStr = media.file_size ? ` · ${formatFileSize(media.file_size)}` : '';
-    const dateTakenStr = media.date_taken
-        ? `<div class="meta-item"><i class="fas fa-calendar-alt"></i> Taken: ${new Date(media.date_taken).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</div>` : '';
-    const downloadCount = media.downloads != null ? media.downloads : '';
+    const fileSize     = media.file_size || media.fileSize;
+    const fileSizeStr  = fileSize ? ` · ${formatFileSize(fileSize)}` : '';
+    const resolution   = media.resolution || '';
+    const dateTaken    = media.date_taken || media.dateTaken;
+    const dateTakenStr = dateTaken
+        ? `<div class="meta-item"><i class="fas fa-calendar-alt"></i> Taken: ${new Date(dateTaken).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</div>` : '';
+    const downloads    = media.downloads ?? '';
+    const views        = media.views ?? 0;
+    const likes        = media.likes ?? 0;
+    const location     = media.location || '';
+    const category     = media.category || '';
+    const visibility   = media.visibility || 'public';
 
     content.innerHTML = `
         <button class="modal-close" onclick="document.getElementById('mediaModal').classList.remove('show')">✕</button>
@@ -392,35 +422,35 @@ function renderModal(media, fromDB) {
             <h2>${media.title}</h2>
             <div class="modal-user">
                 <i class="fas fa-user-circle"></i>
-                ${media.username || media.user || 'Unknown'} &bull; ${uploadDate}
+                ${media.username || 'Unknown'} &bull; ${uploadDate}
             </div>
             <div class="modal-meta-row">
-                ${media.resolution ? `<div class="meta-item"><i class="fas fa-expand-arrows-alt"></i> ${media.resolution}${fileSizeStr}</div>` : ''}
-                ${media.location   ? `<div class="meta-item"><i class="fas fa-map-marker-alt"></i> ${media.location}</div>` : ''}
-                <div class="meta-item"><i class="fas fa-tag"></i> ${media.category || media.category}</div>
+                ${resolution ? `<div class="meta-item"><i class="fas fa-expand-arrows-alt"></i> ${resolution}${fileSizeStr}</div>` : ''}
+                ${location   ? `<div class="meta-item"><i class="fas fa-map-marker-alt"></i> ${location}</div>` : ''}
+                ${category   ? `<div class="meta-item"><i class="fas fa-tag"></i> ${category}</div>` : ''}
                 ${dateTakenStr}
             </div>
             ${camHTML}
-            <p class="modal-description">${media.description}</p>
+            <p class="modal-description">${media.description || ''}</p>
             ${tagsHTML}
             <div class="modal-stats">
-                <span><i class="fas fa-eye"></i> ${media.views ?? 0} views</span>
-                <span><i class="fas fa-heart"></i> <span id="likeCount">${media.likes ?? 0}</span> likes</span>
-                ${downloadCount !== '' ? `<span><i class="fas fa-download"></i> ${downloadCount} downloads</span>` : ''}
-                ${media.visibility === 'private' ? '<span><i class="fas fa-lock"></i> Private</span>' : ''}
+                <span><i class="fas fa-eye"></i> ${views} views</span>
+                <span><i class="fas fa-heart"></i> <span id="likeCount">${likes}</span> likes</span>
+                ${downloads !== '' ? `<span><i class="fas fa-download"></i> ${downloads} downloads</span>` : ''}
+                ${visibility === 'private' ? '<span><i class="fas fa-lock"></i> Private</span>' : ''}
             </div>
             <div class="modal-actions">
-                <button class="action-btn like-btn" onclick="likeMedia('${media.media_id || media.id}')">
+                <button class="action-btn like-btn" onclick="likeMedia('${mediaId}')">
                     <i class="fas fa-heart"></i> Like
                 </button>
-                <button class="action-btn download-btn" onclick="downloadMedia('${media.media_id || media.id}', '${imagePath}')">
+                <button class="action-btn download-btn" onclick="downloadMedia('${mediaId}', '${imagePath}')">
                     <i class="fas fa-download"></i> Download
                 </button>
                 ${isOwner ? `
-                    <button class="action-btn edit-btn" onclick="openEditModal('${media.media_id}')">
+                    <button class="action-btn edit-btn" onclick="openEditModal('${mediaId}')">
                         <i class="fas fa-edit"></i> Edit
                     </button>
-                    <button class="action-btn delete-btn-modal" onclick="deleteMedia('${media.media_id}', event); document.getElementById('mediaModal').classList.remove('show')">
+                    <button class="action-btn delete-btn-modal" onclick="deleteMedia('${mediaId}', event); document.getElementById('mediaModal').classList.remove('show')">
                         <i class="fas fa-trash"></i> Delete
                     </button>` : ''}
             </div>
@@ -445,10 +475,8 @@ async function likeMedia(id) {
 
 async function downloadMedia(id, imageUrl) {
     try {
-        // Increment download counter
         await apiRequest(`/media/${id}/download`, { method: 'POST' });
     } catch { /* non-critical */ }
-    // Trigger browser download
     const a = document.createElement('a');
     a.href     = imageUrl;
     a.download = `snapsphere-${id}.jpg`;
@@ -459,57 +487,70 @@ async function downloadMedia(id, imageUrl) {
 }
 
 // ============================================================
-// EDIT MODAL
+// EDIT — via Logic App UPDATE
 // ============================================================
 async function openEditModal(mediaId) {
     document.getElementById('mediaModal').classList.remove('show');
     try {
-        const media = await apiRequest(`/media/${mediaId}`);
-        // Populate upload form with existing values
+        // Fetch current media from Logic App
+        const response = await fetch(LOGIC_APP_GET);
+        const all = await response.json();
+        const media = all.find(m => (m.id || m.media_id) === mediaId);
+        if (!media) { alert('Could not load media for editing'); return; }
+
         openUploadPage();
-        document.getElementById('mediaTitle').value       = media.title || '';
-        document.getElementById('mediaLocation').value    = media.location || '';
-        document.getElementById('mediaDesc').value        = media.description || '';
-        document.getElementById('mediaCategory').value    = media.category || 'Photography';
-        document.getElementById('mediaTags').value        = (media.tags || []).join(', ');
-        document.getElementById('mediaCameraModel').value = media.camera_model || '';
-        document.getElementById('mediaFocalLength').value = media.focal_length || '';
-        document.getElementById('mediaAperture').value    = media.aperture || '';
-        document.getElementById('mediaISO').value         = media.iso || '';
-        document.getElementById('mediaShutterSpeed').value= media.shutter_speed || '';
-        document.getElementById('mediaVisibility').value  = media.visibility || 'public';
-        if (media.date_taken) {
-            document.getElementById('mediaDateTaken').value = media.date_taken.split('T')[0];
+        document.getElementById('mediaTitle').value        = media.title || '';
+        document.getElementById('mediaLocation').value     = media.location || '';
+        document.getElementById('mediaDesc').value         = media.description || '';
+        document.getElementById('mediaCategory').value     = media.category || 'Photography';
+        document.getElementById('mediaTags').value         = (media.tags || []).join(', ');
+        document.getElementById('mediaCameraModel').value  = media.cameraModel || media.camera_model || '';
+        document.getElementById('mediaFocalLength').value  = media.focalLength || media.focal_length || '';
+        document.getElementById('mediaAperture').value     = media.aperture || '';
+        document.getElementById('mediaISO').value          = media.iso || '';
+        document.getElementById('mediaShutterSpeed').value = media.shutterSpeed || media.shutter_speed || '';
+        document.getElementById('mediaVisibility').value   = media.visibility || 'public';
+        if (media.dateTaken || media.date_taken) {
+            const dt = media.dateTaken || media.date_taken;
+            document.getElementById('mediaDateTaken').value = dt.split('T')[0];
         }
 
-        // Change publish button to save changes
         const publishBtn = document.querySelector('.publish-btn');
         publishBtn.textContent = 'Save Changes';
         publishBtn.onclick = async function () {
-            const token = localStorage.getItem('snapsphere_token');
             const updatedFields = {
+                id:           mediaId,
                 title:        document.getElementById('mediaTitle').value,
                 location:     document.getElementById('mediaLocation').value,
                 description:  document.getElementById('mediaDesc').value,
                 category:     document.getElementById('mediaCategory').value,
-                tags:         document.getElementById('mediaTags').value,
+                tags:         document.getElementById('mediaTags').value.split(',').map(t => t.trim()).filter(Boolean),
                 cameraModel:  document.getElementById('mediaCameraModel').value,
                 focalLength:  document.getElementById('mediaFocalLength').value,
                 aperture:     document.getElementById('mediaAperture').value,
-                iso:          document.getElementById('mediaISO').value,
+                iso:          Number(document.getElementById('mediaISO').value) || null,
                 shutterSpeed: document.getElementById('mediaShutterSpeed').value,
                 visibility:   document.getElementById('mediaVisibility').value,
-                dateTaken:    document.getElementById('mediaDateTaken').value
+                dateTaken:    document.getElementById('mediaDateTaken').value || null,
+                // Preserve existing fields
+                imagePath:        media.imagePath || media.image_path,
+                userId:           media.userId    || media.user_id,
+                username:         media.username,
+                uploadDate:       media.uploadDate || media.upload_date,
+                lastModified:     new Date().toISOString(),
+                views:            media.views    || 0,
+                likes:            media.likes    || 0,
+                downloads:        media.downloads || 0,
+                featured:         media.featured  || false
             };
             try {
-                await fetch(`${API_BASE_URL}/media/${mediaId}`, {
+                await fetch(LOGIC_APP_UPDATE, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedFields)
                 });
                 alert('Changes saved!');
                 goHome();
-                // Restore button
                 publishBtn.textContent = 'Publish';
                 publishBtn.onclick = publishMedia;
             } catch (err) {
@@ -541,28 +582,28 @@ async function filterCategory(cat) {
     );
     if (cat === 'all') {
         loadAllMedia();
-    } else if (cat === 'mine') {
-        if (!currentUser) { alert('Please login first'); return; }
-        try {
-            const userMedia = await apiRequest(`/user/${currentUser.id}/media`);
-            displayMediaGrid(userMedia);
-        } catch { displayMediaGrid([]); }
-    } else {
-        try {
-            const uploaded = await apiRequest(`/category/${cat}`);
-            const sample   = mediaData.filter(m => m.category === cat);
-            displayMediaGrid([...uploaded, ...sample]);
-        } catch {
-            displayMediaGrid(mediaData.filter(m => m.category === cat));
+        return;
+    }
+    try {
+        const response = await fetch(LOGIC_APP_GET);
+        const all = await response.json();
+        if (cat === 'mine') {
+            if (!currentUser) { alert('Please login first'); return; }
+            displayMediaGrid(all.filter(m => (m.userId || m.user_id) === currentUser.id));
+        } else {
+            displayMediaGrid(all.filter(m => m.category === cat));
         }
+    } catch {
+        displayMediaGrid([]);
     }
 }
 
 async function showMyMedia() {
     if (!currentUser) { alert('Please login first'); return; }
     try {
-        const media = await apiRequest(`/user/${currentUser.id}/media`);
-        displayMediaGrid(media);
+        const response = await fetch(LOGIC_APP_GET);
+        const all = await response.json();
+        displayMediaGrid(all.filter(m => (m.userId || m.user_id) === currentUser.id));
     } catch { alert('Failed to load your media'); }
     document.getElementById('userMenu').classList.remove('show');
 }
@@ -578,14 +619,16 @@ document.getElementById('searchInput')?.addEventListener('input', async function
     const term = e.target.value.toLowerCase().trim();
     if (term.length > 2) {
         try {
-            const results = await apiRequest(`/search/${encodeURIComponent(term)}`);
-            displayMediaGrid(results);
-        } catch {
-            displayMediaGrid(mediaData.filter(m =>
-                m.title.toLowerCase().includes(term) ||
-                (m.tags || []).some(t => t.includes(term)) ||
-                (m.location || '').toLowerCase().includes(term)
+            const response = await fetch(LOGIC_APP_GET);
+            const all = await response.json();
+            displayMediaGrid(all.filter(m =>
+                (m.title || '').toLowerCase().includes(term) ||
+                (m.description || '').toLowerCase().includes(term) ||
+                (m.location || '').toLowerCase().includes(term) ||
+                (m.tags || []).some(t => t.toLowerCase().includes(term))
             ));
+        } catch {
+            displayMediaGrid([]);
         }
     } else if (term.length === 0) {
         loadAllMedia();
@@ -617,7 +660,6 @@ function updateFileLabel(file) {
     if (p) p.innerHTML = `Selected: <strong>${file.name}</strong> (${formatFileSize(file.size)})`;
 }
 
-// Click outside to close menu
 document.addEventListener('click', function (e) {
     if (!e.target.closest('.user-profile') && !e.target.closest('#userMenu')) {
         document.getElementById('userMenu')?.classList.remove('show');
