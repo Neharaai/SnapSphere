@@ -134,7 +134,7 @@ async function deleteMedia(id, event) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id })
         });
-        try { await apiRequest(`/media/${id}`, { method: 'POST' }); } catch { }
+        try { await apiRequest(`/media/${id}`, { method: 'DELETE' }); } catch { }
         alert('Deleted successfully!');
         loadAllMedia();
     } catch (error) {
@@ -462,10 +462,10 @@ function renderModal(media) {
                 ${visibility === 'private' ? '<span><i class="fas fa-lock"></i> Private</span>' : ''}
             </div>
             <div class="modal-actions">
-                <button class="action-btn like-btn" onclick="likeMedia('${mediaId}', ${JSON.stringify(media).replace(/'/g, "&#39;")})">
+                <button class="action-btn like-btn" onclick="likeMedia('${mediaId}')">
                     <i class="fas fa-heart"></i> Like
                 </button>
-                <button class="action-btn download-btn" onclick="downloadMedia('${mediaId}', '${imagePath}', ${JSON.stringify(media).replace(/'/g, "&#39;")})">
+                <button class="action-btn download-btn" onclick="downloadMedia('${mediaId}', '${imagePath}')">
                     <i class="fas fa-download"></i> Download
                 </button>
                 ${isOwner ? `
